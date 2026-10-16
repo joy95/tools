@@ -1,0 +1,40 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: ./backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8082 --reload
+    volumes:
+      - ./backend:/app
+      - ./backend/media:/app/media
+      - ./backend/data:/app/data
+    ports:
+      - "8082:8082"
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///./data/media_tools.db
+      - MEDIA_ROOT=/app/media
+      - YTDLP_COOKIES_FILE=/app/data/cookies.txt
+    depends_on:
+      - redis
+
+  worker:
+    build:
+      context: ./backend
+    command: celery -A app.workers.celery_app.celery_app worker --loglevel=info
+    volumes:
+      - ./backend:/app
+      - ./backend/media:/app/media
+      - ./backend/data:/app/data
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=sqlite:///./data/media_tools.db
+      - MEDIA_ROOT=/app/media
+      - YTDLP_COOKIES_FILE=/app/data/cookies.txt
+    depends_on:
+      - redis
+      - backend

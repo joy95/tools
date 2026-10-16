@@ -1,0 +1,6 @@
+{
+  "miniprogramRoot": "dist/dev/mp-weixin/",
+  "compileType": "miniprogram",
+  "appid": "wx89d190a8d6704021",
+  "projectname": "自媒体工具箱"
+}

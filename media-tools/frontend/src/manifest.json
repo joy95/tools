@@ -1,0 +1,16 @@
+{
+  "name": "自媒体工具箱",
+  "appid": "__UNI__MEDIA_TOOLS",
+  "description": "自媒体链接解析、文件处理和图文生成视频工具",
+  "versionName": "0.1.0",
+  "versionCode": "100",
+  "mp-weixin": {
+    "appid": "wx89d190a8d6704021",
+    "setting": {
+      "urlCheck": false,
+      "es6": true,
+      "minified": true
+    },
+    "usingComponents": true
+  }
+}
